@@ -1,1 +1,1 @@
-ss17542 is my nyu netid
+MY NYU NETID: ss17542
