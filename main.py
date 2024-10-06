@@ -5,8 +5,11 @@ import requests
 import json
 import base64
 
+L_QUERY_EP = "https://rekor.sigstore.dev/api/v1/log/entries?logIndex="
+L_P_EP = "https://rekor.sigstore.dev/api/v1/log/proof?"
+L_C_EP = "https://rekor.sigstore.dev/api/v1/log"
 def get_log_entry(log_index, debug=False):  
-    http_res = requests.get(f"https://rekor.sigstore.dev/api/v1/log/entries?logIndex={log_index}")
+    http_res = requests.get(L_QUERY_EP + str(log_index))
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
         return None
@@ -22,7 +25,7 @@ def get_log_entry(log_index, debug=False):
 
 def get_verification_proof(log_index, debug=False):
     # verify that log index value is sane
-    http_res = requests.get(f"https://rekor.sigstore.dev/api/v1/log/entries?logIndex={log_index}")
+    http_res = requests.get(L_QUERY_EP + str(log_index))
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
         return None
@@ -118,7 +121,7 @@ def get_signature(artifact_filepath):
 
 
 def get_latest_checkpoint(debug=False):
-    http_res = requests.get(f"https://rekor.sigstore.dev/api/v1/log")
+    http_res = requests.get(L_C_EP)
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
         return None
@@ -141,7 +144,8 @@ def consistency(prev_checkpoint, debug=False):
     root1 = prev_checkpoint["rootHash"] 
     root2 = l_checkpoint["rootHash"] 
 
-    proof = requests.get(f"https://rekor.sigstore.dev/api/v1/log/proof?firstSize={size1}&lastSize={size2}")
+
+    proof = requests.get(f"{L_P_EP}firstSize={size1}&lastSize={size2}")
     proof = proof.json()['hashes']
 
 
