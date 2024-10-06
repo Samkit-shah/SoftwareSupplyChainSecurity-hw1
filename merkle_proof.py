@@ -88,9 +88,8 @@ def verify_consistency(hasher, size1, size2, proof, root1, root2):
 
 def verify_match(calculated, expected):
     if calculated != expected:
-        raise RootMismatchError(expected, calculated)
-    else:
-        return True
+        raise RootMismatchError(expected, calculated) 
+    return True
 
 def decomp_incl_proof(index, size):
     inner = inner_proof_size(index, size)
