@@ -25,6 +25,15 @@ def get_log_entry(log_index, debug=False):
 
 def get_verification_proof(log_index, debug=False):
     # verify that log index value is sane
+    # check if log_index is a valid integer and non negative
+    if log_index < 0:
+        raise ValueError("Invalid log index value")
+
+    if not isinstance(log_index, int):
+        raise TypeError("Log index value must be an integer")
+
+
+
     http_res = requests.get(L_QUERY_EP + str(log_index))
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
