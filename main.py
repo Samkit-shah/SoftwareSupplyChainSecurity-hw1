@@ -56,8 +56,7 @@ def get_verification_proof(log_index, debug=False):
 
     # index, tree_size, leaf_hash, hashes, root_hash
     return index, tree_size, leaf_hash, hashes, root_hash
-    
-    pass
+     
  
 def inclusion(log_index, artifact_filepath, debug=False):
 
@@ -103,7 +102,7 @@ def inclusion(log_index, artifact_filepath, debug=False):
         print('Inclusion Verified')
     else:
         print('Inclusion Verification Failed')
-    pass
+  
 
 
 def get_certificate(artifact_filepath):
@@ -139,8 +138,7 @@ def get_latest_checkpoint(debug=False):
     if debug:
         print(json.dumps(log_entry, indent=4))
     return log_entry
-
-    pass
+ 
 
 def consistency(prev_checkpoint, debug=False):
     """
