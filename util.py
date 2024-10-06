@@ -6,6 +6,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
 from cryptography.exceptions import InvalidSignature
+import logging
+
 
 
 # extracts and returns public key from a given cert (in pem format)
@@ -56,6 +58,8 @@ def verify_artifact_signature(signature, public_key, artifact_filename):
         )
     except InvalidSignature as e:
         print("Signature is invalid")
+        logger.error("Signature is invalid for artifact: %s : %s", artifact_filename, e)
         
     except Exception as e:
         print("Exception in verifying artifact signature:", e)
+        logger.error("Exception in verifying artifact signature: %s", e)
