@@ -143,7 +143,16 @@ def get_latest_checkpoint(debug=False):
     pass
 
 def consistency(prev_checkpoint, debug=False):
-    # verify that prev checkpoint is not empty
+    """
+    Verifies the consistency between the previous checkpoint and the latest checkpoint.
+
+    Parameters:
+    prev_checkpoint (dict): The previous checkpoint containing the tree size and root hash.
+    debug (bool, optional): Whether to print additional debug information. Defaults to False.
+
+    Returns:
+    None. Prints "Consistency Verified" if the consistency check passes.
+    """
     l_checkpoint = get_latest_checkpoint()
 
 
