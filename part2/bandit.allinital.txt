@@ -1,0 +1,61 @@
+Run started:2024-10-08 02:32:19.583940
+
+Test results:
+>> Issue: [B113:request_without_timeout] Call to requests without timeout
+   Severity: Medium   Confidence: Low
+   CWE: CWE-400 (https://cwe.mitre.org/data/definitions/400.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b113_request_without_timeout.html
+   Location: ./main.py:19:15
+18	def get_log_entry(log_index, debug=False):
+19	    http_res = requests.get(L_QUERY_EP + str(log_index))
+20	    if http_res.status_code != 200:
+
+--------------------------------------------------
+>> Issue: [B113:request_without_timeout] Call to requests without timeout
+   Severity: Medium   Confidence: Low
+   CWE: CWE-400 (https://cwe.mitre.org/data/definitions/400.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b113_request_without_timeout.html
+   Location: ./main.py:45:15
+44	
+45	    http_res = requests.get(L_QUERY_EP + str(log_index))
+46	    if http_res.status_code != 200:
+
+--------------------------------------------------
+>> Issue: [B113:request_without_timeout] Call to requests without timeout
+   Severity: Medium   Confidence: Low
+   CWE: CWE-400 (https://cwe.mitre.org/data/definitions/400.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b113_request_without_timeout.html
+   Location: ./main.py:158:15
+157	def get_latest_checkpoint(debug=False):
+158	    http_res = requests.get(L_C_EP)
+159	    if http_res.status_code != 200:
+
+--------------------------------------------------
+>> Issue: [B113:request_without_timeout] Call to requests without timeout
+   Severity: Medium   Confidence: Low
+   CWE: CWE-400 (https://cwe.mitre.org/data/definitions/400.html)
+   More Info: https://bandit.readthedocs.io/en/1.7.10/plugins/b113_request_without_timeout.html
+   Location: ./main.py:191:12
+190	
+191	    proof = requests.get(f"{L_P_EP}firstSize={size1}&lastSize={size2}")
+192	    proof = proof.json()["hashes"]
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 366
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 4
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 4
+		Medium: 0
+		High: 0
+Files skipped (0):
