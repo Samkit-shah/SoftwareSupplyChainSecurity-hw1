@@ -8,7 +8,7 @@
 5. Create a Pull Request.
 
 ## Reporting Issues
-For issues, open an issue on GitHub and follow the template provided.
+For issues, open an issue on GitHub.
 
 ## Code Style
 Follow PEP 8 guidelines for Python code. Run `flake8` to check for style violations.
