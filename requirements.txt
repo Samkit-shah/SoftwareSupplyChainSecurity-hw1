@@ -1,4 +1,3 @@
 cryptography
-requests
-Rekor
+requests 
 pre-commit

@@ -18,24 +18,31 @@ def extract_public_key(cert):
     #    with open("cert.pem", "rb") as cert_file:
     #        cert_data = cert_file.read()
 
-    # load the certificate
-    certificate = x509.load_pem_x509_certificate(cert, default_backend())
+    try:
 
-    # extract the public key
-    public_key = certificate.public_key()
 
-    # save the public key to a PEM file
-    #    with open("cert_public.pem", "wb") as pub_key_file:
-    #        pub_key_file.write(public_key.public_bytes(
-    #            encoding=serialization.Encoding.PEM,
-    #            format=serialization.PublicFormat.SubjectPublicKeyInfo
-    #        ))
-    pem_public_key = public_key.public_bytes(
-        encoding=serialization.Encoding.PEM,
-        format=serialization.PublicFormat.SubjectPublicKeyInfo,
-    )
+        # load the certificate
+        certificate = x509.load_pem_x509_certificate(cert, default_backend())
 
-    return pem_public_key
+        # extract the public key
+        public_key = certificate.public_key()
+
+        # save the public key to a PEM file
+        #    with open("cert_public.pem", "wb") as pub_key_file:
+        #        pub_key_file.write(public_key.public_bytes(
+        #            encoding=serialization.Encoding.PEM,
+        #            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        #        ))
+        pem_public_key = public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo,
+        )
+
+        return pem_public_key
+    except Exception as e:  
+        print("Exception in extracting public key:", e)
+        logger.error("Exception in extracting public key: %s", e)
+        return None
 
 
 def verify_artifact_signature(signature, public_key, artifact_filename):
@@ -55,10 +62,12 @@ def verify_artifact_signature(signature, public_key, artifact_filename):
     # verify the signature
     try:
         public_key.verify(signature, data, ec.ECDSA(hashes.SHA256()))
+        return True
     except InvalidSignature as e:
         print("Signature is invalid")
         logger.error("Signature is invalid for artifact: %s : %s", artifact_filename, e)
-
+        return None 
     except Exception as e:  # pylint: disable=broad-exception-caught
         print("Exception in verifying artifact signature:", e)
         logger.error("Exception in verifying artifact signature: %s", e)
+        return None

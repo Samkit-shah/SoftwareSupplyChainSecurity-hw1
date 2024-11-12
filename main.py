@@ -66,6 +66,10 @@ def get_verification_proof(log_index, debug=False):
 
 
 def inclusion(log_index, artifact_filepath, debug=False):
+ 
+    if not artifact_filepath:
+        print("Error: artifact filepath is missing")
+        return
 
     # get log entry
     log_entry = get_log_entry(log_index, debug)
@@ -80,14 +84,20 @@ def inclusion(log_index, artifact_filepath, debug=False):
 
     cert_b64 = body_from_log["spec"]["signature"]["publicKey"]["content"]
     certificate = base64.b64decode(cert_b64)
-    print("Certificate Decoded")
+    print("Certificate Decoded") 
 
     # extract_public_key(certificate)
     public_key = extract_public_key(certificate)
     print("Extracted Public Key")
+    if not public_key:
+        print("Error: Unable to extract public key, Verification Failed")
+        return
 
     print("Artifact Signature Verification Started")
-    verify_artifact_signature(signature, public_key, artifact_filepath)
+    is_verified = verify_artifact_signature(signature, public_key, artifact_filepath)
+    if not is_verified:
+        print("Artifact Signature Verification Failed")
+        return
     print("Artifact Signature Verified")
 
     # get verification proof
@@ -194,6 +204,8 @@ def consistency(prev_checkpoint, debug=False):
     vc_res = verify_consistency(DefaultHasher, size1, size2, proof, root1, root2)
     if vc_res:
         print("Consistency Verified")
+    else:
+        print("Consistency Verification Failed")
 
 
 def main():
