@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "softwaresupplychainsecurity-hw1"
+name = "py_rekor_monitor_ss17542_sscs"
 version = "0.1.0"
 description = ""
 authors = []
@@ -30,3 +30,6 @@ build-backend = "poetry.core.masonry.api"
 [tool.flake8]
 max-line-length = 150
 ignore = ["E203", "E266", "E501", "W503"]
+ 
+[tool.poetry.scripts]
+py_rekor_monitor_ss17542_sscs = "py_rekor_monitor_ss17542_sscs.main:main"

@@ -3,3 +3,7 @@ venv/
 .mypy_cache/
 artifact.bundle
 new_key 
+.pypi_token
+*.tar.gz
+cosign.pub
+cosign.key
