@@ -40,9 +40,10 @@ jobs:
       - name: Run code formatting checks
         id: format-check
         run: |
-          pip install black
+          pip install black ruff
+          ruff check ./py_rekor_monitor_ss17542_sscs 
           black --check ./py_rekor_monitor_ss17542_sscs
-        continue-on-error: true
+        
 
       # Step 5: Lint checks with ruff, flake8, pylint
       - name: Run lint checks
@@ -51,7 +52,7 @@ jobs:
           pip install flake8 pylint
           flake8 ./py_rekor_monitor_ss17542_sscs
           pylint $(find ./py_rekor_monitor_ss17542_sscs -name "*.py")
-        continue-on-error: true
+        
 
       # Step 6: Static Application Security Testing (SAST) with bandit
       - name: Run SAST
@@ -59,7 +60,7 @@ jobs:
         run: |
           pip install bandit
           bandit -r ./py_rekor_monitor_ss17542_sscs
-        continue-on-error: true
+        
 
       # Step 7: Secret Scanning with TruffleHog
       - name: TruffleHog OSS 
@@ -67,7 +68,7 @@ jobs:
         uses: trufflesecurity/trufflehog@v3.85.0
         with: 
           path: ./py_rekor_monitor_ss17542_sscs 
-        continue-on-error: true
+        
 
       # Step 8: Run tests and generate coverage report 
       - name: Set PYTHONPATH
@@ -77,13 +78,5 @@ jobs:
         id: tests
         run: |
           poetry run pytest --cov=./py_rekor_monitor_ss17542_sscs
-        continue-on-error: true
-
-      # Step 9: Final status check
-      - name: Fail workflow if any step failed
-        run: |
-          if [[ "${{ steps.format-check.outcome }}" == "failure" ]]; then exit 1; fi
-          if [[ "${{ steps.lint-check.outcome }}" == "failure" ]]; then exit 1; fi
-          if [[ "${{ steps.sast.outcome }}" == "failure" ]]; then exit 1; fi
-          if [[ "${{ steps.trufflehog.outcome }}" == "failure" ]]; then exit 1; fi
-          if [[ "${{ steps.tests.outcome }}" == "failure" ]]; then exit 1; fi
+        
+ 
