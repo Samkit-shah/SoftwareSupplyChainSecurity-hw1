@@ -2,8 +2,11 @@ import argparse
 import base64
 import json
 import requests
-from util import extract_public_key, verify_artifact_signature
-from merkle_proof import (
+from py_rekor_monitor_ss17542_sscs.util import (
+    extract_public_key,
+    verify_artifact_signature,
+)
+from py_rekor_monitor_ss17542_sscs.merkle_proof import (
     DefaultHasher,
     verify_consistency,
     verify_inclusion,
