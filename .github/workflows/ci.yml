@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install poetry
+          pip install poetry  --with dev
           poetry install
 
       # Step 4: Code formatting checks with ruff and black
@@ -73,8 +73,7 @@ jobs:
       - name: Run tests with pytest and generate coverage
         id: tests
         run: |
-          pip install pytest pytest-cov
-          pytest --cov=./py_rekor_monitor_ss17542_sscs
+          poetry run pytest --cov=./py_rekor_monitor_ss17542_sscs
         continue-on-error: true
 
       # Step 9: Final status check
