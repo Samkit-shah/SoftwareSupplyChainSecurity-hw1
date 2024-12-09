@@ -5,7 +5,7 @@ import main
 
 def test_incorrect_input():
     result = subprocess.run(
-        ['python', 'main.py', '--inclusion', '133040969', '--artifact', 'util.py'],
+        ['python', './py_rekor_monitor_ss17542_sscs/main.py', '--inclusion', '133040969', '--artifact', './py_rekor_monitor_ss17542_sscs/util.py'],
         capture_output=True,
         text=True
     ) 

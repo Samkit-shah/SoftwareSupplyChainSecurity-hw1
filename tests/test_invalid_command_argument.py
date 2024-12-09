@@ -2,7 +2,7 @@ import subprocess
 
 def test_invalid_command_argument():
     result = subprocess.run(
-        ['python', 'main.py', '--RANDOM'],
+        ['python', './py_rekor_monitor_ss17542_sscs/main.py', '--RANDOM'],
         capture_output=True,
         text=True
     )

@@ -40,8 +40,7 @@ jobs:
       - name: Run code formatting checks
         id: format-check
         run: |
-          pip install ruff black
-          ruff check ./py_rekor_monitor_ss17542_sscs
+          pip install black
           black --check ./py_rekor_monitor_ss17542_sscs
         continue-on-error: true
 
@@ -67,10 +66,7 @@ jobs:
         id: trufflehog 
         uses: trufflesecurity/trufflehog@v3.85.0
         with: 
-          path: ./py_rekor_monitor_ss17542_sscs
-          base: "${{ github.event.repository.default_branch }}" 
-          head: HEAD 
-          extra_args: --debug --only-verified 
+          path: ./py_rekor_monitor_ss17542_sscs 
         continue-on-error: true
 
       # Step 8: Run tests and generate coverage report

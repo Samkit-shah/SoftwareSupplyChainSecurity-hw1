@@ -18,7 +18,7 @@ checkpoint_schema = {
 
 def test_checkpoint():
     result = subprocess.run(
-        ['python', 'main.py', '-c'],
+        ['python', './py_rekor_monitor_ss17542_sscs/main.py', '-c'],
         capture_output=True,
         text=True
     )

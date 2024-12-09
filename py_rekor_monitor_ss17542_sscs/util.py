@@ -37,7 +37,7 @@ def extract_public_key(cert):
         )
 
         return pem_public_key
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
         print("Exception in extracting public key:", e)
         logger.error("Exception in extracting public key: %s", e)
         return None

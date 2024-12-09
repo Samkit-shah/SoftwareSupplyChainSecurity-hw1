@@ -2,7 +2,7 @@ import subprocess
 
 def test_inclusion_missing_artifact():
     result = subprocess.run(
-        ['python', 'main.py', '--inclusion', '1'],
+        ['python', './py_rekor_monitor_ss17542_sscs/main.py', '--inclusion', '1'],
         capture_output=True,
         text=True
     )

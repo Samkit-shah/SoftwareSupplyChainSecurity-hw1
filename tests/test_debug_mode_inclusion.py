@@ -2,7 +2,7 @@ import subprocess
 
 def test_debug_mode_inclusion():
     result = subprocess.run(
-        ['python', 'main.py', '--debug'],
+        ['python', './py_rekor_monitor_ss17542_sscs/main.py', '--debug'],
         capture_output=True,
         text=True
     )

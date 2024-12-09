@@ -33,3 +33,4 @@ ignore = ["E203", "E266", "E501", "W503"]
  
 [tool.poetry.scripts]
 py_rekor_monitor_ss17542_sscs = "py_rekor_monitor_ss17542_sscs.main:main"
+

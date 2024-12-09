@@ -1,8 +1,8 @@
-import subprocess
+import subprocess 
 
 def test_checkpoint_command():
     result = subprocess.run(
-        ['python', 'main.py', '--checkpoint'],
+        ['python', './py_rekor_monitor_ss17542_sscs/main.py', '--checkpoint'],
         capture_output=True,
         text=True
     )
