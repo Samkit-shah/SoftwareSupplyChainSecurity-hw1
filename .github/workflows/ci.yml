@@ -36,41 +36,54 @@ jobs:
 
       # Step 4: Code formatting checks with ruff and black
       - name: Run code formatting checks
+        id: format-check
         run: |
           pip install ruff black
           ruff check .
           black --check .
+        continue-on-error: true
 
       # Step 5: Lint checks with ruff, flake8, pylint
       - name: Run lint checks
+        id: lint-check
         run: |
           pip install flake8 pylint
           flake8 .
           pylint $(find . -name "*.py")
+        continue-on-error: true
 
       # Step 6: Static Application Security Testing (SAST) with bandit
       - name: Run SAST
+        id: sast
         run: |
           pip install bandit
           bandit -r .
+        continue-on-error: true
 
-      # Step 7: Secret Scanning with trufflehog
+      # Step 7: Secret Scanning with TruffleHog
       - name: TruffleHog OSS 
         id: trufflehog 
         uses: trufflesecurity/trufflehog@v3.85.0
-        continue-on-error: true 
         with: 
           path: ./ 
           base: "${{ github.event.repository.default_branch }}" 
           head: HEAD 
           extra_args: --debug --only-verified 
+        continue-on-error: true
 
-      - name: Scan Results Status 
-        if: steps.trufflehog.outcome == 'failure' 
-        run: exit 1
       # Step 8: Run tests and generate coverage report
       - name: Run tests with pytest and generate coverage
+        id: tests
         run: |
           pip install pytest pytest-cov
           pytest --cov=.
+        continue-on-error: true
 
+      # Step 9: Final status check
+      - name: Fail workflow if any step failed
+        run: |
+          if [[ "${{ steps.format-check.outcome }}" == "failure" ]]; then exit 1; fi
+          if [[ "${{ steps.lint-check.outcome }}" == "failure" ]]; then exit 1; fi
+          if [[ "${{ steps.sast.outcome }}" == "failure" ]]; then exit 1; fi
+          if [[ "${{ steps.trufflehog.outcome }}" == "failure" ]]; then exit 1; fi
+          if [[ "${{ steps.tests.outcome }}" == "failure" ]]; then exit 1; fi
