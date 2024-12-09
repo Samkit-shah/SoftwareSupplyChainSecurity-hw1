@@ -64,14 +64,11 @@ jobs:
 
       # Step 7: Secret Scanning with TruffleHog
       - name: TruffleHog OSS 
-        id: trufflehog 
-        uses: trufflesecurity/trufflehog@v3.85.0  
-        continue-on-error: true 
-        with: 
-          path: ./py_rekor_monitor_ss17542_sscs
-          base: "${{ github.event.repository.default_branch }}" 
-          head: HEAD  
-        
+        id: trufflehog  
+        continue-on-error: true  
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --results=verified,unknown
 
       # Step 8: Run tests and generate coverage report 
       - name: Set PYTHONPATH
