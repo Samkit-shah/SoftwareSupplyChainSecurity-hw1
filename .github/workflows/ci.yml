@@ -33,7 +33,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install poetry  --with dev
+          pip install poetry
           poetry install
 
       # Step 4: Code formatting checks with ruff and black
