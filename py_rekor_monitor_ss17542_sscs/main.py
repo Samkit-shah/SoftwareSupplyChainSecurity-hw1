@@ -16,7 +16,7 @@ L_C_EP = "https://rekor.sigstore.dev/api/v1/log"
 
 
 def get_log_entry(log_index, debug=False):
-    http_res = requests.get(L_QUERY_EP + str(log_index),timeout=10)
+    http_res = requests.get(L_QUERY_EP + str(log_index), timeout=10)
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
         return None
@@ -42,7 +42,7 @@ def get_verification_proof(log_index, debug=False):
     if not isinstance(log_index, int):
         raise TypeError("Log index value must be an integer")
 
-    http_res = requests.get(L_QUERY_EP + str(log_index),timeout=10)
+    http_res = requests.get(L_QUERY_EP + str(log_index), timeout=10)
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
         return None
@@ -66,7 +66,6 @@ def get_verification_proof(log_index, debug=False):
 
 
 def inclusion(log_index, artifact_filepath, debug=False):
- 
     if not artifact_filepath:
         print("Error: artifact filepath is missing")
         return
@@ -84,8 +83,7 @@ def inclusion(log_index, artifact_filepath, debug=False):
 
     cert_b64 = body_from_log["spec"]["signature"]["publicKey"]["content"]
     certificate = base64.b64decode(cert_b64)
-    print("Certificate Decoded") 
-
+    print("Certificate Decoded")
     # extract_public_key(certificate)
     public_key = extract_public_key(certificate)
     print("Extracted Public Key")
@@ -165,7 +163,7 @@ def get_signature(artifact_filepath):
 
 
 def get_latest_checkpoint(debug=False):
-    http_res = requests.get(L_C_EP,timeout=10)
+    http_res = requests.get(L_C_EP, timeout=10)
     if http_res.status_code != 200:
         print("Error: Unable to fetch log entry")
         return None
@@ -198,7 +196,7 @@ def consistency(prev_checkpoint, debug=False):
     root1 = prev_checkpoint["rootHash"]
     root2 = l_checkpoint["rootHash"]
 
-    proof = requests.get(f"{L_P_EP}firstSize={size1}&lastSize={size2}",timeout=10)
+    proof = requests.get(f"{L_P_EP}firstSize={size1}&lastSize={size2}", timeout=10)
     proof = proof.json()["hashes"]
 
     vc_res = verify_consistency(DefaultHasher, size1, size2, proof, root1, root2)

@@ -20,6 +20,8 @@ jobs:
       # Step 1: Check out the repository
       - name: Checkout code
         uses: actions/checkout@v3
+        with: 
+          fetch-depth: 0
 
       # Step 2: Set up Python
       - name: Set up Python
@@ -39,8 +41,8 @@ jobs:
         id: format-check
         run: |
           pip install ruff black
-          ruff check .
-          black --check .
+          ruff check ./py_rekor_monitor_ss17542_sscs
+          black --check ./py_rekor_monitor_ss17542_sscs
         continue-on-error: true
 
       # Step 5: Lint checks with ruff, flake8, pylint
@@ -48,8 +50,8 @@ jobs:
         id: lint-check
         run: |
           pip install flake8 pylint
-          flake8 .
-          pylint $(find . -name "*.py")
+          flake8 ./py_rekor_monitor_ss17542_sscs
+          pylint $(find ./py_rekor_monitor_ss17542_sscs -name "*.py")
         continue-on-error: true
 
       # Step 6: Static Application Security Testing (SAST) with bandit
@@ -57,7 +59,7 @@ jobs:
         id: sast
         run: |
           pip install bandit
-          bandit -r .
+          bandit -r ./py_rekor_monitor_ss17542_sscs
         continue-on-error: true
 
       # Step 7: Secret Scanning with TruffleHog
@@ -65,7 +67,7 @@ jobs:
         id: trufflehog 
         uses: trufflesecurity/trufflehog@v3.85.0
         with: 
-          path: ./ 
+          path: ./py_rekor_monitor_ss17542_sscs
           base: "${{ github.event.repository.default_branch }}" 
           head: HEAD 
           extra_args: --debug --only-verified 
@@ -76,7 +78,7 @@ jobs:
         id: tests
         run: |
           pip install pytest pytest-cov
-          pytest --cov=.
+          pytest --cov=./py_rekor_monitor_ss17542_sscs
         continue-on-error: true
 
       # Step 9: Final status check

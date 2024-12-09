@@ -19,8 +19,6 @@ def extract_public_key(cert):
     #        cert_data = cert_file.read()
 
     try:
-
-
         # load the certificate
         certificate = x509.load_pem_x509_certificate(cert, default_backend())
 
@@ -39,7 +37,7 @@ def extract_public_key(cert):
         )
 
         return pem_public_key
-    except Exception as e:  
+    except Exception as e:
         print("Exception in extracting public key:", e)
         logger.error("Exception in extracting public key: %s", e)
         return None
@@ -66,7 +64,7 @@ def verify_artifact_signature(signature, public_key, artifact_filename):
     except InvalidSignature as e:
         print("Signature is invalid")
         logger.error("Signature is invalid for artifact: %s : %s", artifact_filename, e)
-        return None 
+        return None
     except Exception as e:  # pylint: disable=broad-exception-caught
         print("Exception in verifying artifact signature:", e)
         logger.error("Exception in verifying artifact signature: %s", e)
