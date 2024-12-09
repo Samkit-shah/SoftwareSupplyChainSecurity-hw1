@@ -69,8 +69,11 @@ jobs:
           path: ./py_rekor_monitor_ss17542_sscs 
         continue-on-error: true
 
-      # Step 8: Run tests and generate coverage report
-      - name: Run tests with pytest and generate coverage
+      # Step 8: Run tests and generate coverage report 
+      - name: Set PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)/py_rekor_monitor_ss17542_sscs" >> $GITHUB_ENV
+
+      - name: Run tests with poetry and generate coverage
         id: tests
         run: |
           poetry run pytest --cov=./py_rekor_monitor_ss17542_sscs
