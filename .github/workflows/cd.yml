@@ -23,8 +23,8 @@ jobs:
       - name: Set up Python Environment
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
-
+          python-version: 3.13
+          
       # Step 3: Install Required Tools
       - name: Install Poetry and CycloneDX
         run: |
