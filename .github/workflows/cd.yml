@@ -1,9 +1,7 @@
 name: Deploy Pipeline
 
 on:
-  push:
-    tags:
-      - '*'
+  push: 
     branches:
       - main
 
