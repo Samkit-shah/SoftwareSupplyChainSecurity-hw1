@@ -31,13 +31,11 @@ jobs:
           pip install poetry cyclonedx-bom
 
       # Step 4: Install Project Dependencies
-      - name: Install Dependencies with Poetry
-        working-directory: py_rekor_monitor_ss17542_sscs
-        run: poetry install --no-root
+      - name: Install Dependencies with Poetry 
+        run: poetry install  
 
       # Step 5: Build the Python Project
-      - name: Build Project
-        working-directory: py_rekor_monitor_ss17542_sscs
+      - name: Build Project 
         run: poetry build --format wheel
  
 
@@ -48,13 +46,18 @@ jobs:
       # Step 7: Sign and Attest SBOM
       - name: Detect Wheel File
         id: detect_wheel 
-        run: echo "WHEEL_FILE=$(ls dist/*.whl)" >> $GITHUB_ENV
+        run: echo "WHEEL_FILE=$(ls dist/*.whl)" >> $GITHUB_ENV 
+
+      # .gz
+      - name: Detect Tarball File
+        id: detect_tarball 
+        run: echo "TARBALL_FILE=$(ls dist/*.tar.gz)" >> $GITHUB_ENV
 
 
       - name: Attest SBOM
         uses: actions/attest-sbom@v2.1.0
         with:
-          subject-path: dist/$WHEEL_FILE
+          subject-path: $WHEEL_FILE
           sbom-path: cyclonedx-sbom.json
 
       # Step 8: Upload Artifacts to Release
@@ -62,5 +65,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-           dist/py_rekor_monitor_ss17542_sscs-${{ github.ref_name }}-py3-none-any.whl
-           dist/py_rekor_monitor_ss17542_sscs-${{ github.ref_name }}.tar.gz
+           $WHEEL_FILE
+           $TARBALL_FILE
