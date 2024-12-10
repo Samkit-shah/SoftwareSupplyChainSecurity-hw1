@@ -39,24 +39,23 @@ jobs:
       - name: Build Project
         working-directory: py_rekor_monitor_ss17542_sscs
         run: poetry build --format wheel
+ 
 
-      # Debug Step: Check dist directory
-      - name: Verify dist files 
-        run: ls -la dist
       # Step 6: Generate Software Bill of Materials (SBOM)
       - name: Create SBOM 
         run: cyclonedx-py poetry --output-format json > cyclonedx-sbom.json
 
       # Step 7: Sign and Attest SBOM
       - name: Detect Wheel File
-        id: detect_wheel
-        working-directory: py_rekor_monitor_ss17542_sscs
+        id: detect_wheel 
         run: echo "WHEEL_FILE=$(ls dist/*.whl)" >> $GITHUB_ENV
+
+
       - name: Attest SBOM
         uses: actions/attest-sbom@v2.1.0
         with:
-          subject-path: py_rekor_monitor_ss17542_sscs/$WHEEL_FILE
-          sbom-path: py_rekor_monitor_ss17542_sscs/cyclonedx-sbom.json
+          subject-path: dist/$WHEEL_FILE
+          sbom-path: cyclonedx-sbom.json
 
       # Step 8: Upload Artifacts to Release
       - name: Publish Artifacts to Release
