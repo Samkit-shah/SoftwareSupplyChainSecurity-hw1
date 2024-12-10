@@ -46,12 +46,12 @@ jobs:
       # Step 7: Sign and Attest SBOM
       - name: Detect Wheel File
         id: detect_wheel 
-        run: echo "WHEEL_FILE=$(ls dist/*.whl)" >> $GITHUB_ENV 
+        run: |
+          FILE=$(ls dist/*.whl | head -n 1)
+          echo "WHEEL_FILE=$FILE" >> $GITHUB_ENV
+          echo "Wheel file detected: $FILE"
 
-      # .gz
-      - name: Detect Tarball File
-        id: detect_tarball 
-        run: echo "TARBALL_FILE=$(ls dist/*.tar.gz)" >> $GITHUB_ENV
+ 
 
 
       - name: Attest SBOM
