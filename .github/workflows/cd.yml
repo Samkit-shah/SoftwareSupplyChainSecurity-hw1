@@ -1,9 +1,8 @@
-name: Deploy Pipeline
-
+name: cd
 on:
-  push: 
-    branches:
-      - main
+  push:
+    tags:
+      - '*'
 
 jobs:
   deploy:
@@ -46,11 +45,15 @@ jobs:
         run: cyclonedx-py poetry --output-format json > cyclonedx-sbom.json
 
       # Step 7: Sign and Attest SBOM
-      - name: Attest 
+      - name: Detect Wheel File
+        id: detect_wheel
+        working-directory: py_rekor_monitor_ss17542_sscs
+        run: echo "WHEEL_FILE=$(ls dist/*.whl)" >> $GITHUB_ENV
+      - name: Attest SBOM
         uses: actions/attest-sbom@v2.1.0
         with:
-          subject-path: dist/py_rekor_monitor_ss17542_sscs-${{ github.ref_name }}-py3-none-any.whl
-          sbom-path: cyclonedx-sbom.json
+          subject-path: py_rekor_monitor_ss17542_sscs/$WHEEL_FILE
+          sbom-path: py_rekor_monitor_ss17542_sscs/cyclonedx-sbom.json
 
       # Step 8: Upload Artifacts to Release
       - name: Publish Artifacts to Release
