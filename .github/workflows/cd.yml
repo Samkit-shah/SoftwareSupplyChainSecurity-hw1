@@ -36,7 +36,7 @@ jobs:
 
       # Step 5: Build the Python Project
       - name: Build Project
-        run: poetry build --format wheel
+        run: poetry build
 
       # Step 6: Detect Wheel File
       - name: Detect Wheel File
