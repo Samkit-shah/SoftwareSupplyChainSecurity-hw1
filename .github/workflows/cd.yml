@@ -40,6 +40,9 @@ jobs:
         working-directory: py_rekor_monitor_ss17542_sscs
         run: poetry build --format wheel
 
+      # Debug Step: Check dist directory
+      - name: Verify dist files 
+        run: ls -la dist
       # Step 6: Generate Software Bill of Materials (SBOM)
       - name: Create SBOM 
         run: cyclonedx-py poetry --output-format json > cyclonedx-sbom.json
