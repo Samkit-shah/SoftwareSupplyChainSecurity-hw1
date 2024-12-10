@@ -1,69 +1,12 @@
-name: cd
+name: Test Workflow
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
 
 jobs:
-  deploy:
-    name: Deployment Workflow
+  test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Required for creating releases
-      id-token: write   # Required for SBOM attestation
-      attestations: write  # Required for SBOM generation and attestation
-
     steps:
-      # Step 1: Clone the repository
-      - name: Clone repository
-        uses: actions/checkout@v3
-
-      # Step 2: Configure Python Environment
-      - name: Set up Python Environment
-        uses: actions/setup-python@v4
-        with:
-          python-version: 3.13
-
-      # Step 3: Install Required Tools
-      - name: Install Poetry and CycloneDX
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry cyclonedx-bom
-
-      # Step 4: Install Project Dependencies
-      - name: Install Dependencies with Poetry 
-        run: poetry install  
-
-      # Step 5: Build the Python Project
-      - name: Build Project 
-        run: poetry build --format wheel
- 
-
-      # Step 6: Generate Software Bill of Materials (SBOM)
-      - name: Create SBOM 
-        run: cyclonedx-py poetry --output-format json > cyclonedx-sbom.json
-
-      # Step 7: Sign and Attest SBOM
-      - name: Detect Wheel File
-        id: detect_wheel 
-        run: |
-          FILE=$(ls dist/*.whl | head -n 1)
-          echo "WHEEL_FILE=$FILE" >> $GITHUB_ENV
-          echo "Wheel file detected: $FILE"
-
- 
-
-
-      - name: Attest SBOM
-        uses: actions/attest-sbom@v2.1.0
-        with:
-          subject-path: $FILE
-          sbom-path: cyclonedx-sbom.json
-
-      # Step 8: Upload Artifacts to Release
-      - name: Publish Artifacts to Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-           $WHEEL_FILE
-           $TARBALL_FILE
+      - name: Hello World
+        run: echo "Hello, GitHub Actions!"
