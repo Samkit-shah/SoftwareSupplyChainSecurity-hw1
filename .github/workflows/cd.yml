@@ -1,12 +1,66 @@
-name: Test Workflow
+name: cd
 on:
   push:
     tags:
       - '*'
 
 jobs:
-  test:
+  deploy:
+    name: Deployment Workflow
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for creating releases
+      id-token: write   # Required for SBOM attestation
+      attestations: write  # Required for SBOM generation and attestation
+
     steps:
-      - name: Hello World
-        run: echo "Hello, GitHub Actions!"
+      # Step 1: Clone the repository
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      # Step 2: Configure Python Environment
+      - name: Set up Python Environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      # Step 3: Install Required Tools
+      - name: Install Poetry and CycloneDX
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry cyclonedx-bom
+
+      # Step 4: Install Project Dependencies
+      - name: Install Dependencies with Poetry
+        run: poetry install
+
+      # Step 5: Build the Python Project
+      - name: Build Project
+        run: poetry build --format wheel
+
+      # Step 6: Detect Wheel File
+      - name: Detect Wheel File
+        id: detect_wheel
+        run: |
+          WHEEL_FILE=$(ls dist/*.whl | head -n 1)
+          echo "WHEEL_FILE=$WHEEL_FILE" >> $GITHUB_ENV
+          echo "Wheel file detected: $WHEEL_FILE"
+      
+      # Step 7: Generate Software Bill of Materials (SBOM)
+      - name: Create SBOM
+        run: cyclonedx-py poetry --output-format json > cyclonedx-sbom.json
+
+      # Step 8: Sign and Attest SBOM
+      - name: Attest SBOM
+        uses: actions/attest-sbom@v2.1.0
+        with:
+          subject-path: ${{ env.WHEEL_FILE }}
+          sbom-path: cyclonedx-sbom.json
+
+      # Step 9: Upload Artifacts to Release
+      - name: Publish Artifacts to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ env.WHEEL_FILE }}
+            dist/*.tar.gz
