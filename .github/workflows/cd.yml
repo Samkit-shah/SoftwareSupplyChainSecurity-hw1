@@ -50,7 +50,7 @@ jobs:
         uses: actions/attest-sbom@v2.1.0
         with:
           subject-path: py_rekor_monitor_ss17542_sscs/dist/py_rekor_monitor_ss17542_sscs-${{ github.ref_name }}-py3-none-any.whl
-          sbom-path: py_rekor_monitor_ss17542_sscs/cyclonedx-sbom.json
+          sbom-path: cyclonedx-sbom.json
 
       # Step 8: Upload Artifacts to Release
       - name: Publish Artifacts to Release
