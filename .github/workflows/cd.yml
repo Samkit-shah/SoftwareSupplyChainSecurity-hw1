@@ -48,7 +48,7 @@ jobs:
 
       # Step 7: Sign and Attest SBOM
       - name: Attest 
-        uses: github/sbom-attestation-action@v1
+        uses: actions/attest-sbom@v2.1.0
         with:
           subject-path: py_rekor_monitor_ss17542_sscs/dist/py_rekor_monitor_ss17542_sscs-${{ github.ref_name }}-py3-none-any.whl
           sbom-path: py_rekor_monitor_ss17542_sscs/cyclonedx-sbom.json
