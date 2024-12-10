@@ -1,9 +1,9 @@
 name: Deploy Pipeline
 
 on:
-  push: 
-    branches:
-      - main
+  push:
+    tags:
+      - '*'
 
 jobs:
   deploy:
@@ -49,7 +49,7 @@ jobs:
       - name: Attest 
         uses: actions/attest-sbom@v2.1.0
         with:
-          subject-path: $(ls py_rekor_monitor_ss17542_sscs/dist/*.whl)
+          subject-path: dist/py_rekor_monitor_ss17542_sscs-${{ github.ref_name }}-py3-none-any.whl
           sbom-path: cyclonedx-sbom.json
 
       # Step 8: Upload Artifacts to Release
