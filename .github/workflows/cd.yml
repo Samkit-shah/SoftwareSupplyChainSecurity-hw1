@@ -57,7 +57,7 @@ jobs:
       - name: Attest SBOM
         uses: actions/attest-sbom@v2.1.0
         with:
-          subject-path: $WHEEL_FILE
+          subject-path: $FILE
           sbom-path: cyclonedx-sbom.json
 
       # Step 8: Upload Artifacts to Release
