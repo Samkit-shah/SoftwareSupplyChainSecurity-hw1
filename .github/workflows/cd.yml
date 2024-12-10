@@ -45,6 +45,14 @@ jobs:
           WHEEL_FILE=$(ls dist/*.whl | head -n 1)
           echo "WHEEL_FILE=$WHEEL_FILE" >> $GITHUB_ENV
           echo "Wheel file detected: $WHEEL_FILE"
+
+      # - name TAR>GZ File 
+      - name: Detect Tar File
+        id: detect_tar
+        run: |
+          TAR_FILE=$(ls dist/*.tar.gz | head -n 1)
+          echo "TAR_FILE=$TAR_FILE" >> $GITHUB_ENV
+          echo "Tar file detected: $TAR_FILE"
       
       # Step 7: Generate Software Bill of Materials (SBOM)
       - name: Create SBOM
@@ -62,5 +70,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ${{ env.WHEEL_FILE }}
-            dist/*.tar.gz
+            ${{ env.WHEEL_FILE }} 
+            ${{ env.TAR_FILE }} 
