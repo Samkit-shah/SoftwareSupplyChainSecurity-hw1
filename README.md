@@ -1,5 +1,5 @@
 ![CI Build Status](https://github.com/Samkit-shah/SoftwareSupplyChainSecurity-hw1/actions/workflows/ci.yml/badge.svg)
-![CD Build Status](https://github.com/Samkit-shah/SoftwareSupplyChainSecurity-hw1/actions/workflows/cd.yml/badge.svg)
+![CD Build Status](https://github.com/Samkit-shah/SoftwareSupplyChainSecurity-hw1/actions/workflows/cd.yml/badge.svg?branch=main)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Samkit-shah/SoftwareSupplyChainSecurity-hw1/badge)](https://scorecard.dev/viewer/?uri=github.com/Samkit-shah/SoftwareSupplyChainSecurity-hw1)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/9793/badge)](https://www.bestpractices.dev/projects/9793)
 
