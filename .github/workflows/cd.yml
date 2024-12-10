@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  cd:
+  deploy:
     name: Deployment Workflow
     runs-on: ubuntu-latest
     permissions:
